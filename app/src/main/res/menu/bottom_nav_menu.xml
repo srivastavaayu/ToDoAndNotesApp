@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homemenu"
+        android:enabled="true"
+        android:icon="@drawable/homeicon"
+        android:title="Home" />
+    <item
+        android:id="@+id/todomenu"
+        android:enabled="true"
+        android:icon="@drawable/todoicon"
+        android:title="To-Do" />
+    <item
+        android:id="@+id/notesmenu"
+        android:enabled="true"
+        android:icon="@drawable/notesicon"
+        android:title="Notes" />
+    <item
+        android:id="@+id/aboutmenu"
+        android:enabled="true"
+        android:icon="@drawable/abouticon"
+        android:title="About" />
+</menu>

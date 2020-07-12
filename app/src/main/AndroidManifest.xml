@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.madlab.todoandnotesapp">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/computericon"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/computericon"
+        android:supportsRtl="true"
+        android:theme="@style/MaterialAppTheme"
+        android:resizeableActivity="false">
+        <activity
+            android:name=".AboutActivity"
+            android:label="About">
+        </activity>
+        <activity
+            android:name=".NotesActivity"
+            android:label="Notes">
+        </activity>
+        <activity
+            android:name=".TodoActivity"
+            android:label="To-Do">
+        </activity>
+        <activity
+            android:name=".AddTodoActivity"
+            android:label="Add To-Do"
+            android:parentActivityName=".TodoActivity" />
+        <activity
+            android:name=".AddNoteActivity"
+            android:label="Add Note"
+            android:parentActivityName=".NotesActivity" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
