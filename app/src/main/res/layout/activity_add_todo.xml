@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -154,7 +154,7 @@
                 android:visibility="gone" />-->
 
             <Button
-                android:id="@+id/save_todo"
+                android:id="@+id/btnSaveTodo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -163,9 +163,9 @@
                 android:layout_marginBottom="16dp"
                 android:text="Save To-Do"
                 app:icon="@drawable/ic_add"
-                app:iconGravity="textStart"/>
+                app:iconGravity="textStart" />
 
         </LinearLayout>
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
