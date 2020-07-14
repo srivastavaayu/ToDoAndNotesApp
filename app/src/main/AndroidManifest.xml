@@ -11,25 +11,13 @@
         android:theme="@style/MaterialAppTheme"
         android:resizeableActivity="false">
         <activity
-            android:name=".AboutActivity"
-            android:label="About">
-        </activity>
-        <activity
-            android:name=".NotesActivity"
-            android:label="Notes">
-        </activity>
-        <activity
-            android:name=".TodoActivity"
-            android:label="To-Do">
-        </activity>
-        <activity
             android:name=".AddTodoActivity"
             android:label="Add To-Do"
-            android:parentActivityName=".TodoActivity" />
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".AddNoteActivity"
             android:label="Add Note"
-            android:parentActivityName=".NotesActivity" />
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

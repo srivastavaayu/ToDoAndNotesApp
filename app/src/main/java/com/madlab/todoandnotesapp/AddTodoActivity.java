@@ -1,6 +1,7 @@
 package com.madlab.todoandnotesapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -14,6 +15,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 public class AddTodoActivity extends AppCompatActivity {
 
@@ -85,12 +87,6 @@ public class AddTodoActivity extends AppCompatActivity {
                     }
                 }, hour, minute, false);
                 timePickerDialog.show();
-            }
-        });
-        btnSaveTodo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                
             }
         });
     }

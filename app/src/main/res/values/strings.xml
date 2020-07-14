@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">To Do and Notes App</string>
-    <string name="AppDesc">Developer: \n Aayush Srivastava</string>
+    <string name="DevName">Developer: \n Aayush Srivastava</string>
     <string name="DevContact">You can reach out to me at: \n aayu.2312@gmail.com \n LinkedIn: linkedin.com/in/srivastava-aayush \n GitHub: github.com/srivastavaayu \n Twitter: twitter.com/aaysrivastava</string>
+    <string name="FirstTimeUserWelcome">Hey There, \nIt seems you\'re using this app for the first time, so let\'s personalize your experience. \nTell me something about yourself!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
