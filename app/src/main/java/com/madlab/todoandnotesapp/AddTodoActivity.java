@@ -12,8 +12,11 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.SeekBar;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.madlab.todoandnotesapp.data.Todo;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -23,6 +26,7 @@ public class AddTodoActivity extends AppCompatActivity {
     CheckBox cbEnableNotifs;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
+    TextInputLayout txtEnterTodo,txtEnterTodoDescription;
     TextInputLayout txtEnterTodoDate, txtEnterTodoTime;
     TextInputEditText txtEnterTodoDateText, txtEnterTodoTimeText;
     Button btnSaveTodo;
@@ -32,6 +36,8 @@ public class AddTodoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_todo);
         cbEnableNotifs = findViewById(R.id.cbEnableNotifs);
+        txtEnterTodo=findViewById(R.id.txtEnterTodo);
+        txtEnterTodoDescription=findViewById(R.id.txtEnterTodoDescription);
         txtEnterTodoDate = findViewById(R.id.txtEnterTodoDate);
         txtEnterTodoTime = findViewById(R.id.txtEnterTodoTime);
         txtEnterTodoDateText = findViewById(R.id.txtEnterTodoDateText);
@@ -88,6 +94,23 @@ public class AddTodoActivity extends AppCompatActivity {
                     }
                 }, hour, minute, false);
                 timePickerDialog.show();
+            }
+        });
+        btnSaveTodo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String enterTodo=txtEnterTodo.getEditText().getText().toString().trim();
+                String enterTodoDescription=txtEnterTodoDescription.getEditText().getText().toString().trim();
+                String enterTodoDate=txtEnterTodoDate.getEditText().getText().toString().trim();
+                String enterTodoTime=txtEnterTodoTime.getEditText().getText().toString().trim();
+                Todo todo=new Todo();
+                todo.setTodoTitle(enterTodo);
+                todo.setTodoDesc(enterTodoDescription);
+                todo.setTodoDate(enterTodoDate);
+                todo.setTodoTime(enterTodoTime);
+                MainActivity.todoDatabase.todoDao().addTodo(todo);
+                Toast.makeText(AddTodoActivity.this,"ToDo added successfully!",Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }

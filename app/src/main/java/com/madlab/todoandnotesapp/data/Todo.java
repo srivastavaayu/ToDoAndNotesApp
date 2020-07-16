@@ -17,6 +17,10 @@ public class Todo {
     @ColumnInfo(name = "todoTime")
     String todoTime;
 
+    public int getItemId() {
+        return itemId;
+    }
+
     public String getTodoTitle() {
         return todoTitle;
     }

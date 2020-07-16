@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -80,18 +81,17 @@ public class FirstTimeUserFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder dialogBuilder=new AlertDialog.Builder(getActivity());
         LayoutInflater inflater=requireActivity().getLayoutInflater();
-
         dialogBuilder.setView(inflater.inflate(R.layout.fragment_first_time_user,null))
                 .setCancelable(false)
+                .setTitle("Hey Newbie!")
                 .setPositiveButton("That's Correct", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        SharedPreferences.Editor sharedprefedit = getActivity().getSharedPreferences(SHAREDPREF, MODE_PRIVATE).edit();
+                        SharedPreferences.Editor sharedprefedit = ((MainActivity)getActivity()).getSharedPreferences(SHAREDPREF, MODE_PRIVATE).edit();
                         sharedprefedit.putBoolean("firstTimeUser", false)
                                 .apply();
                     }
-                })
-                .setTitle("Hey Newbie!");
+                });
         return dialogBuilder.create();
     }
 
