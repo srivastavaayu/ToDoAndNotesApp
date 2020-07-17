@@ -1,14 +1,9 @@
-package com.madlab.todoandnotesapp.data;
-
-import android.widget.ArrayAdapter;
+package com.madlab.todoandnotesapp.data.todo;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Update;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Dao

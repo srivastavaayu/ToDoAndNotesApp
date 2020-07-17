@@ -59,6 +59,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ((MainActivity)getActivity()).getSupportActionBar().setTitle("To-Do and Notes App");
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 }

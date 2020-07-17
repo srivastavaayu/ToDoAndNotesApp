@@ -56,11 +56,11 @@
                     android:layout_height="wrap_content"
                     android:gravity="start"
                     android:inputType="textMultiLine"
-                    android:minLines="4" />
+                    android:minLines="5" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/save_note"
+                android:id="@+id/btnSaveNote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

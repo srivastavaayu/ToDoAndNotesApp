@@ -1,4 +1,4 @@
-package com.madlab.todoandnotesapp.data;
+package com.madlab.todoandnotesapp.data.todo;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

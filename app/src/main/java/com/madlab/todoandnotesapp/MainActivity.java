@@ -13,16 +13,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputLayout;
-import com.madlab.todoandnotesapp.data.TodoDatabase;
-
-import java.util.Objects;
+import com.madlab.todoandnotesapp.data.note.NoteDatabase;
+import com.madlab.todoandnotesapp.data.todo.TodoDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,12 +27,14 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager fragmentManager;
     private static final String SHAREDPREF="com.madlab.todoandnotesapp.SHAREDPREF";
     public static TodoDatabase todoDatabase;
+    public static NoteDatabase noteDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        todoDatabase= Room.databaseBuilder(getApplicationContext(),TodoDatabase.class,"tododb").allowMainThreadQueries().build();
+        todoDatabase=Room.databaseBuilder(getApplicationContext(),TodoDatabase.class,"tododb").allowMainThreadQueries().build();
+        noteDatabase=Room.databaseBuilder(getApplicationContext(),NoteDatabase.class,"notedb").allowMainThreadQueries().build();
         BottomNavigationView navBottom = findViewById(R.id.navBottom);
         RelativeLayout rlMain = findViewById(R.id.rlMain);
         fabMain = findViewById(R.id.fabMain);
@@ -46,10 +44,7 @@ public class MainActivity extends AppCompatActivity {
         fabAddNote.setVisibility(View.GONE);
         fragmentManager = this.getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .show(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragHome)))
-                .hide(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragTodo)))
-                .hide(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragNotes)))
-                .hide(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragAbout)))
+                .replace(R.id.fragment_container,new HomeFragment())
                 .commit();
         navBottom.setSelectedItemId(R.id.homemenu);
         SharedPreferences sharedpref = getSharedPreferences(SHAREDPREF, MODE_PRIVATE);
@@ -64,37 +59,25 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.toString()) {
                     case "Home":
                         fragmentManager.beginTransaction()
-                                .show(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragHome)))
-                                .hide(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragTodo)))
-                                .hide(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragNotes)))
-                                .hide(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragAbout)))
+                                .replace(R.id.fragment_container,new HomeFragment())
                                 .commit();
                         fabMain.setVisibility(View.VISIBLE);
                         break;
                     case "To-Do":
                         fragmentManager.beginTransaction()
-                                .hide(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragHome)))
-                                .show(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragTodo)))
-                                .hide(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragNotes)))
-                                .hide(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragAbout)))
+                                .replace(R.id.fragment_container,new ToDoFragment())
                                 .commit();
                         fabMain.setVisibility(View.VISIBLE);
                         break;
                     case "Notes":
                         fragmentManager.beginTransaction()
-                                .hide(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragHome)))
-                                .hide(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragTodo)))
-                                .show(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragNotes)))
-                                .hide(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragAbout)))
+                                .replace(R.id.fragment_container,new NotesFragment())
                                 .commit();
                         fabMain.setVisibility(View.VISIBLE);
                         break;
                     case "About":
                         fragmentManager.beginTransaction()
-                                .hide(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragHome)))
-                                .hide(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragTodo)))
-                                .hide(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragNotes)))
-                                .show(Objects.requireNonNull(fragmentManager.findFragmentById(R.id.fragAbout)))
+                                .replace(R.id.fragment_container,new AboutFragment())
                                 .commit();
                         fabMain.animate().setDuration(350).rotation(0f).start();
                         fabMain.setVisibility(View.GONE);
@@ -180,6 +163,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent addTodo = new Intent(MainActivity.this, AddTodoActivity.class);
                 startActivity(addTodo);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container,new HomeFragment())
+                        .commit();
             }
         });
         fabAddNote.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +173,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent addNote = new Intent(MainActivity.this, AddNoteActivity.class);
                 startActivity(addNote);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container,new HomeFragment())
+                        .commit();
             }
         });
     }

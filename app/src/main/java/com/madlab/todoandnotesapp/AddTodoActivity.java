@@ -1,7 +1,6 @@
 package com.madlab.todoandnotesapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -10,16 +9,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
-import android.widget.SeekBar;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.madlab.todoandnotesapp.data.Todo;
+import com.madlab.todoandnotesapp.data.todo.Todo;
 
 import java.util.Calendar;
-import java.util.Objects;
 
 public class AddTodoActivity extends AppCompatActivity {
 
@@ -109,7 +106,7 @@ public class AddTodoActivity extends AppCompatActivity {
                 todo.setTodoDate(enterTodoDate);
                 todo.setTodoTime(enterTodoTime);
                 MainActivity.todoDatabase.todoDao().addTodo(todo);
-                Toast.makeText(AddTodoActivity.this,"ToDo added successfully!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddTodoActivity.this,"To-Do added successfully!",Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

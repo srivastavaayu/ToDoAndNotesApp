@@ -1,4 +1,4 @@
-package com.madlab.todoandnotesapp.data;
+package com.madlab.todoandnotesapp.data.todo;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;

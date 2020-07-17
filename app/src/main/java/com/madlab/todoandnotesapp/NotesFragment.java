@@ -7,6 +7,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.madlab.todoandnotesapp.data.note.Note;
+import com.madlab.todoandnotesapp.data.todo.Todo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +68,19 @@ public class NotesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notes, container, false);
+        ((MainActivity)getActivity()).getSupportActionBar().setTitle("Notes");
+        View view=inflater.inflate(R.layout.fragment_notes, container, false);
+        ListView lvNotes=(ListView) view.findViewById(R.id.lvNotes);
+        List<Note> allNotes=MainActivity.noteDatabase.noteDao().getNotes();
+        List<String> lvAllNotes= new ArrayList<String>();
+        for(Note tempNote: allNotes)
+        {
+            String noteTitle=tempNote.getNoteTitle();
+            String noteDesc=tempNote.getNoteDesc();
+            lvAllNotes.add(noteTitle+"\n"+noteDesc);
+        }
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,lvAllNotes);
+        lvNotes.setAdapter(adapter);
+        return view;
     }
 }
