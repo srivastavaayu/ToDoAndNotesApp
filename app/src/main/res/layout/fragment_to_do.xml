@@ -7,15 +7,13 @@
     android:paddingBottom="60dp"
     tools:context=".ToDoFragment">
 
-    <ListView
-        android:id="@+id/lvTodos"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTodos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </ListView>
-
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

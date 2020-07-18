@@ -2,11 +2,16 @@ package com.madlab.todoandnotesapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -21,6 +26,11 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class ToDoFragment extends Fragment {
+
+    RecyclerView rvTodos;
+    RecyclerView.Adapter adapter;
+    RecyclerView.LayoutManager layoutManager;
+    View view;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -63,22 +73,32 @@ public class ToDoFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.fragment_to_do, container, false);
-        ListView lvTodos=(ListView) view.findViewById(R.id.lvTodos);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        rvTodos=(RecyclerView) view.findViewById(R.id.rvTodos);
+        rvTodos.setHasFixedSize(true);
         List<Todo> allTodos=MainActivity.todoDatabase.todoDao().getTodos();
-        List<String> lvAllTodos= new ArrayList<String>();
+        ArrayList<Todo> todoArrayList=new ArrayList<>();
         for(Todo tempTodo: allTodos)
         {
-            String todoTitle=tempTodo.getTodoTitle();
-            String todoDesc=tempTodo.getTodoDesc();
-            String todoDate=tempTodo.getTodoDate();
-            String todoTime=tempTodo.getTodoTime();
-            lvAllTodos.add(todoTitle+"\n"+todoDesc+"\n"+todoDate+"\n"+todoTime);
+            Todo tempInsTodo=new Todo();
+            tempInsTodo.setItemId(tempTodo.getItemId());
+            tempInsTodo.setTodoTitle(tempTodo.getTodoTitle());
+            tempInsTodo.setTodoDesc(tempTodo.getTodoDesc());
+            tempInsTodo.setTodoDate(tempTodo.getTodoDate());
+            tempInsTodo.setTodoTime(tempTodo.getTodoTime());
+            todoArrayList.add(tempInsTodo);
         }
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,lvAllTodos);
-        lvTodos.setAdapter(adapter);
+        layoutManager=new LinearLayoutManager(this.getActivity());
+        rvTodos.setLayoutManager(layoutManager);
+        adapter=new TodoAdapter(this.getActivity(),todoArrayList);
+        rvTodos.setAdapter(adapter);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view= inflater.inflate(R.layout.fragment_to_do, container, false);
         ((MainActivity)getActivity()).getSupportActionBar().setTitle("To-Do");
         return view;
     }

@@ -2,7 +2,10 @@ package com.madlab.todoandnotesapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +27,10 @@ import java.util.List;
  */
 public class NotesFragment extends Fragment {
 
+    RecyclerView rvNotes;
+    RecyclerView.LayoutManager layoutManager;
+    RecyclerView.Adapter adapter;
+    View view;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -65,22 +72,31 @@ public class NotesFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        ((MainActivity)getActivity()).getSupportActionBar().setTitle("Notes");
-        View view=inflater.inflate(R.layout.fragment_notes, container, false);
-        ListView lvNotes=(ListView) view.findViewById(R.id.lvNotes);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        rvNotes=(RecyclerView) view.findViewById(R.id.rvNotes);
+        rvNotes.setHasFixedSize(true);
         List<Note> allNotes=MainActivity.noteDatabase.noteDao().getNotes();
-        List<String> lvAllNotes= new ArrayList<String>();
+        ArrayList<Note> noteArrayList= new ArrayList<>();
         for(Note tempNote: allNotes)
         {
-            String noteTitle=tempNote.getNoteTitle();
-            String noteDesc=tempNote.getNoteDesc();
-            lvAllNotes.add(noteTitle+"\n"+noteDesc);
+            Note tempInsNote=new Note();
+            tempInsNote.setItemId(tempNote.getItemId());
+            tempInsNote.setNoteTitle(tempNote.getNoteTitle());
+            tempInsNote.setNoteDesc(tempNote.getNoteDesc());
+            noteArrayList.add(tempInsNote);
         }
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,lvAllNotes);
-        lvNotes.setAdapter(adapter);
+        layoutManager=new LinearLayoutManager(this.getActivity());
+        rvNotes.setLayoutManager(layoutManager);
+        adapter=new NotesAdapter(this.getActivity(),noteArrayList);
+        rvNotes.setAdapter(adapter);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view=inflater.inflate(R.layout.fragment_notes, container, false);
+        ((MainActivity)getActivity()).getSupportActionBar().setTitle("Notes");
         return view;
     }
 }

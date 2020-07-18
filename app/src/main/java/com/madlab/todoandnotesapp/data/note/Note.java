@@ -14,8 +14,21 @@ public class Note {
     @ColumnInfo(name = "noteDesc")
     String noteDesc;
 
+    public Note() {
+    }
+
+    public Note(int itemId, String noteTitle, String noteDesc) {
+        this.itemId = itemId;
+        this.noteTitle = noteTitle;
+        this.noteDesc = noteDesc;
+    }
+
     public int getItemId() {
         return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 
     public String getNoteTitle() {

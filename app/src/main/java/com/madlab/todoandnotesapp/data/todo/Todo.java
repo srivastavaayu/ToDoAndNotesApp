@@ -17,8 +17,23 @@ public class Todo {
     @ColumnInfo(name = "todoTime")
     String todoTime;
 
+    public Todo() {
+    }
+
+    public Todo(int itemId, String todoTitle, String todoDesc, String todoDate, String todoTime) {
+        this.itemId = itemId;
+        this.todoTitle = todoTitle;
+        this.todoDesc = todoDesc;
+        this.todoDate = todoDate;
+        this.todoTime = todoTime;
+    }
+
     public int getItemId() {
         return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 
     public String getTodoTitle() {

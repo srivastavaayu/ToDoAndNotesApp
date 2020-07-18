@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.animation.Animator;
@@ -13,12 +15,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.RelativeLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.madlab.todoandnotesapp.data.note.NoteDatabase;
+import com.madlab.todoandnotesapp.data.todo.Todo;
 import com.madlab.todoandnotesapp.data.todo.TodoDatabase;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         todoDatabase=Room.databaseBuilder(getApplicationContext(),TodoDatabase.class,"tododb").allowMainThreadQueries().build();
         noteDatabase=Room.databaseBuilder(getApplicationContext(),NoteDatabase.class,"notedb").allowMainThreadQueries().build();
-        BottomNavigationView navBottom = findViewById(R.id.navBottom);
+        final BottomNavigationView navBottom = findViewById(R.id.navBottom);
         RelativeLayout rlMain = findViewById(R.id.rlMain);
         fabMain = findViewById(R.id.fabMain);
         fabAddToDo = findViewById(R.id.fabAddToDo);
@@ -163,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent addTodo = new Intent(MainActivity.this, AddTodoActivity.class);
                 startActivity(addTodo);
+                navBottom.setSelectedItemId(R.id.homemenu);
                 fragmentManager.beginTransaction()
                         .replace(R.id.fragment_container,new HomeFragment())
                         .commit();
@@ -173,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent addNote = new Intent(MainActivity.this, AddNoteActivity.class);
                 startActivity(addNote);
+                navBottom.setSelectedItemId(R.id.homemenu);
                 fragmentManager.beginTransaction()
                         .replace(R.id.fragment_container,new HomeFragment())
                         .commit();

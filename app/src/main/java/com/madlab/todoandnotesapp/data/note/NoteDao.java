@@ -1,6 +1,7 @@
 package com.madlab.todoandnotesapp.data.note;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -14,4 +15,7 @@ public interface NoteDao {
 
     @Query("SELECT * FROM NOTE")
     public List<Note> getNotes();
+
+    @Delete
+    public void removeNote(Note note);
 }
