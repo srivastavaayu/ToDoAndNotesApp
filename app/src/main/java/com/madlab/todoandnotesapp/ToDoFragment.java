@@ -7,18 +7,22 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 
 import com.madlab.todoandnotesapp.data.todo.Todo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Delayed;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +35,7 @@ public class ToDoFragment extends Fragment {
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     View view;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -93,6 +98,36 @@ public class ToDoFragment extends Fragment {
         rvTodos.setLayoutManager(layoutManager);
         adapter=new TodoAdapter(this.getActivity(),todoArrayList);
         rvTodos.setAdapter(adapter);
+        swipeRefreshLayout=view.findViewById(R.id.srlTodo);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                List<Todo> allTodos2=MainActivity.todoDatabase.todoDao().getTodos();
+                ArrayList<Todo> todoArrayList2=new ArrayList<>();
+                for(Todo tempTodo: allTodos2)
+                {
+                    Todo tempInsTodo=new Todo();
+                    tempInsTodo.setItemId(tempTodo.getItemId());
+                    tempInsTodo.setTodoTitle(tempTodo.getTodoTitle());
+                    tempInsTodo.setTodoDesc(tempTodo.getTodoDesc());
+                    tempInsTodo.setTodoDate(tempTodo.getTodoDate());
+                    tempInsTodo.setTodoTime(tempTodo.getTodoTime());
+                    todoArrayList2.add(tempInsTodo);
+                }
+                adapter=new TodoAdapter(todoArrayList2);
+                adapter.notifyDataSetChanged();
+                rvTodos.setAdapter(adapter);
+                swipeRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(swipeRefreshLayout.isRefreshing())
+                        {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    }
+                },1000);
+            }
+        });
     }
 
     @Override

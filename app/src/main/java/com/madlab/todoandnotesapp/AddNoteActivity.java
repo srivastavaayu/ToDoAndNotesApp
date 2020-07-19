@@ -27,6 +27,17 @@ public class AddNoteActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String enterNoteTitle=txtEnterNoteTitle.getEditText().getText().toString().trim();
                 String enterNote=txtEnterNote.getEditText().getText().toString().trim();
+                if(enterNote.equals(""))
+                {
+                    txtEnterNote.setError("Please fill this field!");
+                    return;
+                }
+                if(txtEnterNote.isErrorEnabled())
+                {
+                    txtEnterNote.setErrorEnabled(false);
+                    txtEnterNote.setHelperTextEnabled(true);
+                    txtEnterNote.setHelperText("Enter note above");
+                }
                 Note note=new Note();
                 note.setNoteTitle(enterNoteTitle);
                 note.setNoteDesc(enterNote);
@@ -35,5 +46,6 @@ public class AddNoteActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 }

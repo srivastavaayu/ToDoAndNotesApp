@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,8 @@ public class NotesFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     RecyclerView.Adapter adapter;
     View view;
+    SwipeRefreshLayout swipeRefreshLayout;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -90,6 +93,34 @@ public class NotesFragment extends Fragment {
         rvNotes.setLayoutManager(layoutManager);
         adapter=new NotesAdapter(this.getActivity(),noteArrayList);
         rvNotes.setAdapter(adapter);
+        swipeRefreshLayout=view.findViewById(R.id.srlNotes);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                List<Note> allNotes2=MainActivity.noteDatabase.noteDao().getNotes();
+                ArrayList<Note> noteArrayList2= new ArrayList<>();
+                for(Note tempNote: allNotes2)
+                {
+                    Note tempInsNote=new Note();
+                    tempInsNote.setItemId(tempNote.getItemId());
+                    tempInsNote.setNoteTitle(tempNote.getNoteTitle());
+                    tempInsNote.setNoteDesc(tempNote.getNoteDesc());
+                    noteArrayList2.add(tempInsNote);
+                }
+                adapter=new NotesAdapter(noteArrayList2);
+                adapter.notifyDataSetChanged();
+                rvNotes.setAdapter(adapter);
+                swipeRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(swipeRefreshLayout.isRefreshing())
+                        {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    }
+                },1000);
+            }
+        });
     }
 
     @Override

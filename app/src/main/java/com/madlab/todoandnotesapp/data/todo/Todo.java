@@ -2,6 +2,7 @@ package com.madlab.todoandnotesapp.data.todo;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
@@ -20,6 +21,7 @@ public class Todo {
     public Todo() {
     }
 
+    @Ignore
     public Todo(int itemId, String todoTitle, String todoDesc, String todoDate, String todoTime) {
         this.itemId = itemId;
         this.todoTitle = todoTitle;

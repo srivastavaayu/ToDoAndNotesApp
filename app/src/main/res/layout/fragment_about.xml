@@ -30,7 +30,7 @@
             android:layout_marginTop="10dp"
             android:text="@string/app_name"
             android:textAlignment="center"
-            android:textColor="#FFF"
+            android:textColor="#000"
             android:textSize="30sp" />
 
         <TextView
@@ -40,7 +40,7 @@
             android:layout_marginTop="5dp"
             android:text="v0.1.2"
             android:textAlignment="center"
-            android:textColor="#FFF" />
+            android:textColor="#000" />
 
         <TextView
             android:id="@+id/txtDevName"

@@ -1,10 +1,16 @@
 package com.madlab.todoandnotesapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.AlarmClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -12,11 +18,14 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.material.datepicker.MaterialStyledDatePickerDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.madlab.todoandnotesapp.data.todo.Todo;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class AddTodoActivity extends AppCompatActivity {
 
@@ -27,11 +36,13 @@ public class AddTodoActivity extends AppCompatActivity {
     TextInputLayout txtEnterTodoDate, txtEnterTodoTime;
     TextInputEditText txtEnterTodoDateText, txtEnterTodoTimeText;
     Button btnSaveTodo;
+    AlarmManager alarmManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_todo);
+        alarmManager=(AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         cbEnableNotifs = findViewById(R.id.cbEnableNotifs);
         txtEnterTodo=findViewById(R.id.txtEnterTodo);
         txtEnterTodoDescription=findViewById(R.id.txtEnterTodoDescription);
@@ -59,6 +70,7 @@ public class AddTodoActivity extends AppCompatActivity {
                 }
             }
         });
+        final Calendar alarm=Calendar.getInstance();
         txtEnterTodoDateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +82,9 @@ public class AddTodoActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         txtEnterTodoDateText.setText(String.format("%02d/%02d/%02d", dayOfMonth, (month + 1), year));
+                        alarm.set(Calendar.YEAR,year);
+                        alarm.set(Calendar.MONTH,month);
+                        alarm.set(Calendar.DAY_OF_MONTH,dayOfMonth);
                     }
                 }, year, month, day);
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
@@ -88,6 +103,9 @@ public class AddTodoActivity extends AppCompatActivity {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         int hour = hourOfDay % 12;
                         txtEnterTodoTimeText.setText(String.format("%02d:%02d %s", hour == 0 ? 12 : hour, minute, hourOfDay < 12 ? "AM" : "PM"));
+                        alarm.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                        alarm.set(Calendar.MINUTE,minute);
+                        alarm.set(Calendar.SECOND,0);
                     }
                 }, hour, minute, false);
                 timePickerDialog.show();
@@ -100,11 +118,49 @@ public class AddTodoActivity extends AppCompatActivity {
                 String enterTodoDescription=txtEnterTodoDescription.getEditText().getText().toString().trim();
                 String enterTodoDate=txtEnterTodoDate.getEditText().getText().toString().trim();
                 String enterTodoTime=txtEnterTodoTime.getEditText().getText().toString().trim();
+                if(enterTodo.equals(""))
+                {
+                    txtEnterTodo.setError("Please fill this field!");
+                    return;
+                }
+                if(txtEnterTodo.isErrorEnabled())
+                {
+
+                    txtEnterTodo.setErrorEnabled(false);
+                    txtEnterTodo.setHelperTextEnabled(true);
+                    txtEnterTodo.setHelperText("Enter to-do item title above");
+                }
+                if(cbEnableNotifs.isChecked() && enterTodoDate.equals(""))
+                {
+                    txtEnterTodoDate.setError("Please select a date!");
+                    return;
+                }
+                if(cbEnableNotifs.isChecked() && txtEnterTodoDate.isErrorEnabled())
+                {
+                    txtEnterTodoDate.setErrorEnabled(false);
+                }
+                if(cbEnableNotifs.isChecked() && enterTodoTime.equals(""))
+                {
+                    txtEnterTodoTime.setError("Please select a time!");
+                    return;
+                }
+                if(cbEnableNotifs.isChecked() && txtEnterTodoTime.isErrorEnabled())
+                {
+                    txtEnterTodoTime.setErrorEnabled(false);
+                }
                 Todo todo=new Todo();
                 todo.setTodoTitle(enterTodo);
                 todo.setTodoDesc(enterTodoDescription);
                 todo.setTodoDate(enterTodoDate);
                 todo.setTodoTime(enterTodoTime);
+                if(cbEnableNotifs.isChecked())
+                {
+                    Intent alarmIntent=new Intent(getApplicationContext(),AlarmBroadcastReceiver.class);
+                    alarmIntent.putExtra("todoTitle",enterTodo);
+                    alarmIntent.putExtra("todoDesc",enterTodoDescription);
+                    PendingIntent pendingAlarmIntent=PendingIntent.getBroadcast(getApplicationContext(),1234,alarmIntent,PendingIntent.FLAG_UPDATE_CURRENT|Intent.FILL_IN_DATA);
+                    alarmManager.setWindow(alarmManager.RTC_WAKEUP,alarm.getTimeInMillis(),0,pendingAlarmIntent);
+                }
                 MainActivity.todoDatabase.todoDao().addTodo(todo);
                 Toast.makeText(AddTodoActivity.this,"To-Do added successfully!",Toast.LENGTH_SHORT).show();
                 finish();

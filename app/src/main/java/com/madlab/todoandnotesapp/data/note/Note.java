@@ -2,6 +2,7 @@ package com.madlab.todoandnotesapp.data.note;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
@@ -17,6 +18,7 @@ public class Note {
     public Note() {
     }
 
+    @Ignore
     public Note(int itemId, String noteTitle, String noteDesc) {
         this.itemId = itemId;
         this.noteTitle = noteTitle;
