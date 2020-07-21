@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.bluetooth.BluetoothManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
@@ -53,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = this.getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.fragment_container,new HomeFragment())
-                .setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right)
                 .commit();
         navBottom.setSelectedItemId(R.id.homemenu);
         SharedPreferences sharedpref = getSharedPreferences(SHAREDPREF, MODE_PRIVATE);
@@ -69,28 +70,24 @@ public class MainActivity extends AppCompatActivity {
                     case "Home":
                         fragmentManager.beginTransaction()
                                 .replace(R.id.fragment_container,new HomeFragment())
-                                .setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right)
                                 .commit();
                         fabMain.setVisibility(View.VISIBLE);
                         break;
                     case "To-Do":
                         fragmentManager.beginTransaction()
                                 .replace(R.id.fragment_container,new ToDoFragment())
-                                .setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right)
                                 .commit();
                         fabMain.setVisibility(View.VISIBLE);
                         break;
                     case "Notes":
                         fragmentManager.beginTransaction()
                                 .replace(R.id.fragment_container,new NotesFragment())
-                                .setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right)
                                 .commit();
                         fabMain.setVisibility(View.VISIBLE);
                         break;
                     case "About":
                         fragmentManager.beginTransaction()
                                 .replace(R.id.fragment_container,new AboutFragment())
-                                .setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right)
                                 .commit();
                         fabMain.animate().setDuration(350).rotation(0f).start();
                         fabMain.setVisibility(View.GONE);
@@ -176,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent addTodo = new Intent(MainActivity.this, AddTodoActivity.class);
                 startActivity(addTodo);
+
             }
         });
         fabAddNote.setOnClickListener(new View.OnClickListener() {
@@ -187,4 +185,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }

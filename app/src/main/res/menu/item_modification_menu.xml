@@ -4,9 +4,11 @@
     <item
         android:id="@+id/updatemenu"
         android:title="Update"
-        android:visible="true" />
+        android:visible="true"
+        android:icon="@drawable/updateicon" />
     <item
         android:id="@+id/deletemenu"
         android:title="Delete"
-        android:visible="true" />
+        android:visible="true"
+        android:icon="@drawable/deleteicon" />
 </menu>

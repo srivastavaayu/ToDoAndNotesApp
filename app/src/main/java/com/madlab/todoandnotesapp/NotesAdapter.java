@@ -1,6 +1,7 @@
 package com.madlab.todoandnotesapp;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,10 +23,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
 
     ArrayList<Note> notes=new ArrayList<>();
     Context context;
-
-    public NotesAdapter(ArrayList<Note> notes) {
-        this.notes = notes;
-    }
 
     public NotesAdapter(Context context, ArrayList<Note> list) {
         notes = list;
@@ -57,6 +54,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
             public void onClick(View v) {
                 PopupMenu popupMenu=new PopupMenu(context,holder.itemView);
                 popupMenu.inflate(R.menu.item_modification_menu);
+                popupMenu.setGravity(Gravity.END);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -66,9 +64,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
                                 break;
                             case R.id.deletemenu:
                                 MainActivity.noteDatabase.noteDao().removeNote(notes.get(position));
+                                Snackbar.make(holder.itemView,"Note successfully deleted!", BaseTransientBottomBar.LENGTH_LONG).show();
                                 break;
                         }
-                        return false;
+                        return true;
                     }
                 });
                 popupMenu.show();

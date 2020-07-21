@@ -107,7 +107,7 @@ public class NotesFragment extends Fragment {
                     tempInsNote.setNoteDesc(tempNote.getNoteDesc());
                     noteArrayList2.add(tempInsNote);
                 }
-                adapter=new NotesAdapter(noteArrayList2);
+                adapter=new NotesAdapter(getContext(),noteArrayList2);
                 adapter.notifyDataSetChanged();
                 rvNotes.setAdapter(adapter);
                 swipeRefreshLayout.postDelayed(new Runnable() {

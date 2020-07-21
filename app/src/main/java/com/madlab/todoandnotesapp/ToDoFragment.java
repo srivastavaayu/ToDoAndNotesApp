@@ -78,6 +78,29 @@ public class ToDoFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        rvTodos=(RecyclerView) view.findViewById(R.id.rvTodos);
+        rvTodos.setHasFixedSize(true);
+        List<Todo> allTodos=MainActivity.todoDatabase.todoDao().getTodos();
+        ArrayList<Todo> todoArrayList=new ArrayList<>();
+        for(Todo tempTodo: allTodos)
+        {
+            Todo tempInsTodo=new Todo();
+            tempInsTodo.setItemId(tempTodo.getItemId());
+            tempInsTodo.setTodoTitle(tempTodo.getTodoTitle());
+            tempInsTodo.setTodoDesc(tempTodo.getTodoDesc());
+            tempInsTodo.setTodoDate(tempTodo.getTodoDate());
+            tempInsTodo.setTodoTime(tempTodo.getTodoTime());
+            todoArrayList.add(tempInsTodo);
+        }
+        layoutManager=new LinearLayoutManager(this.getActivity());
+        rvTodos.setLayoutManager(layoutManager);
+        adapter=new TodoAdapter(this.getActivity(),todoArrayList);
+        rvTodos.setAdapter(adapter);
+        super.onResume();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         rvTodos=(RecyclerView) view.findViewById(R.id.rvTodos);
@@ -114,7 +137,7 @@ public class ToDoFragment extends Fragment {
                     tempInsTodo.setTodoTime(tempTodo.getTodoTime());
                     todoArrayList2.add(tempInsTodo);
                 }
-                adapter=new TodoAdapter(todoArrayList2);
+                adapter=new TodoAdapter(getContext(),todoArrayList2);
                 adapter.notifyDataSetChanged();
                 rvTodos.setAdapter(adapter);
                 swipeRefreshLayout.postDelayed(new Runnable() {

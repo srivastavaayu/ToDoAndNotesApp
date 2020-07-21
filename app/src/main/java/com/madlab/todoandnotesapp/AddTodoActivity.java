@@ -1,6 +1,8 @@
 package com.madlab.todoandnotesapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlarmManager;
@@ -37,6 +39,7 @@ public class AddTodoActivity extends AppCompatActivity {
     TextInputEditText txtEnterTodoDateText, txtEnterTodoTimeText;
     Button btnSaveTodo;
     AlarmManager alarmManager;
+    RecyclerView rvTodos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

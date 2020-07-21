@@ -2,6 +2,7 @@ package com.madlab.todoandnotesapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,8 +25,8 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>{
     ArrayList<Todo> todos = new ArrayList<>();
     Context context;
 
-    public TodoAdapter(ArrayList<Todo> todos) {
-        this.todos = todos;
+    public TodoAdapter() {
+        notifyDataSetChanged();
     }
 
     public TodoAdapter(Context context, ArrayList<Todo> list) {
@@ -74,6 +75,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>{
             public void onClick(View v) {
                 PopupMenu popupMenu=new PopupMenu(context,holder.itemView);
                 popupMenu.inflate(R.menu.item_modification_menu);
+                popupMenu.setGravity(Gravity.END);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
@@ -83,9 +85,10 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>{
                                 break;
                             case R.id.deletemenu:
                                 MainActivity.todoDatabase.todoDao().removeTodo(todos.get(position));
+                                Snackbar.make(holder.itemView,"To-Do successfully deleted!", BaseTransientBottomBar.LENGTH_LONG).show();
                                 break;
                         }
-                        return false;
+                        return true;
                     }
                 });
                 popupMenu.show();
