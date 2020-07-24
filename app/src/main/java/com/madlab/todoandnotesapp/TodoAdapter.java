@@ -94,14 +94,14 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>{
                 popupMenu.show();
             }
         });
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+/*        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 MainActivity.todoDatabase.todoDao().removeTodo(todos.get(position));
                 Snackbar.make(holder.itemView,"To-Do successfully deleted!", BaseTransientBottomBar.LENGTH_LONG).show();
                 return true;
             }
-        });
+        });*/
     }
 
     @Override

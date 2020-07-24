@@ -74,14 +74,14 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
             }
         });
         holder.noteDescText.setText(String.format("Description: \n%s",notes.get(position).getNoteDesc()));
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+/*        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 MainActivity.noteDatabase.noteDao().removeNote(notes.get(position));
                 Snackbar.make(holder.itemView,"Note successfully deleted!", BaseTransientBottomBar.LENGTH_LONG).show();
                 return true;
             }
-        });
+        });*/
     }
 
     public void setNotes(ArrayList<Note> notes) {
