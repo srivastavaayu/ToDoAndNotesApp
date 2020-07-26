@@ -2,7 +2,6 @@ package com.madlab.todoandnotesapp;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,19 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.PopupMenu;
 
 import com.madlab.todoandnotesapp.data.todo.Todo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Delayed;
 
 /**
  * A simple {@link Fragment} subclass.

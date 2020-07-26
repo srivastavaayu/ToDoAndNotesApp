@@ -17,7 +17,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.madlab.todoandnotesapp.data.note.Note;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
 
