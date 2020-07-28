@@ -1,5 +1,7 @@
 package com.madlab.todoandnotesapp;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -10,12 +12,15 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.MenuPopupHelper;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.madlab.todoandnotesapp.data.todo.Todo;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>{
@@ -71,7 +76,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>{
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu=new PopupMenu(context,holder.itemView);
+                final PopupMenu popupMenu=new PopupMenu(context,holder.itemView);
                 popupMenu.inflate(R.menu.item_modification_menu);
                 popupMenu.setGravity(Gravity.END);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -79,6 +84,20 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder>{
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId())
                         {
+                            case R.id.copymenu:
+                                ClipboardManager clipboardManager=(ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                if(todos.get(position).getTodoDesc().equals("")){
+                                    ClipData clip=ClipData.newPlainText("To-Do","To-Do:" +
+                                            "\nTo-Do Title: " + holder.todoTitleText.getText());
+                                    clipboardManager.setPrimaryClip(clip);
+                                }
+                                else {
+                                    ClipData clip= ClipData.newPlainText("To-Do", "To-Do:" +
+                                            "\nTo-Do Title: " + holder.todoTitleText.getText() +
+                                            "\nTo-Do Description: " + todos.get(position).getTodoDesc().trim());
+                                    clipboardManager.setPrimaryClip(clip);
+                                }
+                                break;
                             case R.id.updatemenu:
                                 break;
                             case R.id.deletemenu:

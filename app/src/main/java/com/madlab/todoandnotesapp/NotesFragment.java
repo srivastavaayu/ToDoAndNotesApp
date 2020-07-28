@@ -75,6 +75,27 @@ public class NotesFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        rvNotes=(RecyclerView) view.findViewById(R.id.rvNotes);
+        rvNotes.setHasFixedSize(true);
+        List<Note> allNotes=MainActivity.noteDatabase.noteDao().getNotes();
+        ArrayList<Note> noteArrayList= new ArrayList<>();
+        for(Note tempNote: allNotes)
+        {
+            Note tempInsNote=new Note();
+            tempInsNote.setItemId(tempNote.getItemId());
+            tempInsNote.setNoteTitle(tempNote.getNoteTitle());
+            tempInsNote.setNoteDesc(tempNote.getNoteDesc());
+            noteArrayList.add(tempInsNote);
+        }
+        layoutManager=new LinearLayoutManager(this.getActivity());
+        rvNotes.setLayoutManager(layoutManager);
+        adapter=new NotesAdapter(this.getActivity(),noteArrayList);
+        rvNotes.setAdapter(adapter);
+        super.onResume();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         rvNotes=(RecyclerView) view.findViewById(R.id.rvNotes);

@@ -1,5 +1,7 @@
 package com.madlab.todoandnotesapp;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -45,6 +47,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
         holder.itemView.setTag(notes.get(position));
         holder.noteId.setText(String.valueOf(notes.get(position).getItemId()));
         holder.noteTitleText.setText(notes.get(position).getNoteTitle());
+        holder.noteDescText.setText(notes.get(position).getNoteDesc());
         if(notes.get(position).getNoteTitle().equals("")) {
             holder.noteTitleText.setVisibility(View.GONE);
         }
@@ -59,6 +62,19 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId())
                         {
+                            case R.id.copymenu:
+                                ClipboardManager clipboardManager=(ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                if(notes.get(position).getNoteTitle().equals("")){
+                                    ClipData clip=ClipData.newPlainText("Note","Note:" +
+                                            "\nNote Description: " + notes.get(position).getNoteDesc());
+                                    clipboardManager.setPrimaryClip(clip);
+                                }
+                                else {
+                                    ClipData clip= ClipData.newPlainText("Note", "Note:" +
+                                            "\nNote Title: " + holder.noteTitleText.getText() +
+                                            "\nNote Description: " + notes.get(position).getNoteDesc().trim());
+                                    clipboardManager.setPrimaryClip(clip);
+                                }
                             case R.id.updatemenu:
                                 break;
                             case R.id.deletemenu:

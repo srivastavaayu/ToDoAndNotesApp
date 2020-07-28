@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/copymenu"
+        android:title="Copy"
+        android:visible="true"/>
+    <item
         android:id="@+id/updatemenu"
         android:title="Update"
         android:visible="true"
