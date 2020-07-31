@@ -19,7 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="Long-press to delete \nSwipe down to refresh">
+                android:text="Swipe down to refresh">
             </com.google.android.material.textview.MaterialTextView>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvNotes"
